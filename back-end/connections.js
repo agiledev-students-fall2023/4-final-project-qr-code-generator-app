@@ -19,16 +19,22 @@ router.get('/connections/:userId', authenticateToken, async (req, res) => {
           return res.status(404).json({ error: 'User not found or no connections available' });
       }
 
-      const connectionsDetails = await Promise.all(user.connections.map(async (connection) => {
-          const friend = await User.findById(connection.friend_id).select('first_name last_name profile_picture');
-          return {
-              friend_id: connection.friend_id,
-              first_name: friend.first_name,
-              last_name: friend.last_name,
-              profile_picture: friend.profile_picture || defaultImage,
-              platforms: connection.platforms
-          };
-      }));
+      const uniqueFriendIds = new Set();
+      const connectionsDetails = [];
+
+      for (const connection of user.connections) {
+          if (!uniqueFriendIds.has(connection.friend_id.toString())) {
+              uniqueFriendIds.add(connection.friend_id.toString());
+              const friend = await User.findById(connection.friend_id).select('first_name last_name profile_picture');
+              connectionsDetails.push({
+                  friend_id: connection.friend_id,
+                  first_name: friend.first_name,
+                  last_name: friend.last_name,
+                  profile_picture: friend.profile_picture || defaultImage,
+                  platforms: connection.platforms
+              });
+          }
+      }
 
       res.json(connectionsDetails);
   } catch (error) {
@@ -36,6 +42,7 @@ router.get('/connections/:userId', authenticateToken, async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 // Error handling middleware

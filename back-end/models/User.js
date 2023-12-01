@@ -21,15 +21,15 @@ const connectionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  first_name: {  // Added
+  first_name: {  
     type: String,
     required: true
   },
-  last_name: {  // Added
+  last_name: {  
     type: String,
     required: true
   },
-  profile_picture: {  // Added
+  profile_picture: {  
     type: String,
     default: ''
   }
