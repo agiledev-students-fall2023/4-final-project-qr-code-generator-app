@@ -47,7 +47,7 @@ const ConnectionDetails = () => {
 	const handleHideCode = () => {
 		setQRCodeVisible(false)
 	}
-
+	
 	const handleSaveCode = async () => {
 		const token = localStorage.getItem('token')
 		if (!token) {
