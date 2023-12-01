@@ -27,8 +27,8 @@ router.put('/:id/platforms',
     return value.every(plat => plat.hasOwnProperty('name') && plat.hasOwnProperty('value'))
   }),
   // ** checks nested fields
-  body('**.name').trim().notEmpty().escape(),
-  body('**.value').trim().notEmpty().escape(),
+  body('**.name').trim().notEmpty(),
+  body('**.value').trim().notEmpty(),
   async (req, res) => {
   try {
     const result = validationResult(req)
