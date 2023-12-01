@@ -11,7 +11,6 @@ const platformSchema = new mongoose.Schema({
   }
 });
 
-
 const connectionSchema = new mongoose.Schema({
   friend_id: {
     type: mongoose.ObjectId,
@@ -21,6 +20,18 @@ const connectionSchema = new mongoose.Schema({
   connected_date: {
     type: Date,
     default: Date.now
+  },
+  first_name: {  // Added
+    type: String,
+    required: true
+  },
+  last_name: {  // Added
+    type: String,
+    required: true
+  },
+  profile_picture: {  // Added
+    type: String,
+    default: ''
   }
 });
 

@@ -67,7 +67,7 @@ router.post('/ConnectionDetails', async (req, res) => {
 
   try {
    
-    const user = await User.findOne({ _id: qrCodeText })
+    const user = await User.findOne({ _id: qrCodeText }).select('first_name last_name profile_picture platforms');
     console.log('User found:', user)
 
     if (!user) {
@@ -78,6 +78,52 @@ router.post('/ConnectionDetails', async (req, res) => {
   } catch (error) {
     console.error('Error:', error)
     res.status(500).json({ message: 'Internal Server Error' })
+  }
+});
+
+router.post('/saveConnection', async (req, res) => {
+  const { userId, friend_id, platforms, connected_date, first_name, last_name, profile_picture } = req.body;
+
+  try {
+    await User.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          connections: {
+            friend_id,
+            platforms,
+            connected_date,
+            first_name,  // Added
+            last_name,   // Added
+            profile_picture // Added
+          }
+        }
+      }
+    );
+
+    res.status(200).json({ message: 'Connection saved successfully' });
+  } catch (error) {
+    console.error('Error saving connection:', error);
+    res.status(500).send('Error saving connection');
+  }
+});
+
+router.post('/getUserDetails', async (req, res) => {
+  const { id } = req.body;
+
+  if (!isValidObjectId(id)) {
+    return res.status(400).send('Invalid ID');
+  }
+
+  try {
+    const user = await User.findById(id).select('first_name last_name profile_picture');
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
