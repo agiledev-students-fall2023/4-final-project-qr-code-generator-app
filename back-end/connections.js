@@ -1,46 +1,25 @@
 const express = require('express');
-const axios = require('axios');
-const router = express.Router();
-require('dotenv').config();
 const mongoose = require('mongoose');
-const User = require('./models/User.js');
-
-const apiBaseUrl = process.env.API_BASE_URL;
-const apiKey = process.env.LARA_API_KEY;
+const { User } = require('./models/User')
 const authenticateToken = require('./authRoutes');
+const router = express.Router();
 
-// Route for saved connections
-router.get('/connections', authenticateToken, async (req, res, next) => {
-  if (process.env.SIMULATE_ERROR === 'true') {
-    const err = new Error('Simulated server error');
-    err.status = 500;
-    return next(err);
-  }
-
-  try {
-    const mockApiUrl = `${apiBaseUrl}?key=${apiKey}`;
-    const response = await axios.get(mockApiUrl);
-    const connections = response.data;
-
-    res.json(connections);
-  } catch (error) {
-    console.error('Error fetching connections data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Route for user-specific connections
 router.get('/connections/:userId', async (req, res) => {
+  const userId = req.params.userId;
   try {
-    const userId = req.params.userId;
-    console.log('User ID:', userId);
-
-    const userConnections = await User.findById(userId).select('connections');
-    if (!userConnections) {
-      return res.status(404).json({ error: 'User not found' });
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: 'Invalid User ID' });
     }
-    console.log('User Connections:', userConnections);
-    res.json(userConnections.connections);
+
+    const user = await User.findById(userId);
+    
+    if (!user || !user.connections) {
+      return res.status(404).json({ error: 'User not found or no connections available' });
+    }
+
+    const friendIds = user.connections.map(connection => connection.friend_id);
+
+    res.json(friendIds);
   } catch (error) {
     console.error('Error fetching user connections:', error);
     res.status(500).json({ error: 'Internal Server Error' });
