@@ -22,18 +22,17 @@ body {
 }
 
 .connection-box {
+  display: flex;
   align-items: center;
+  justify-content: center;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 10px;
   color: black;
-  display: flex;
-  flex-direction: row; 
-  justify-content: flex-start;
   padding: 15px;
-  text-decoration: none;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   margin-bottom: 10px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer; 
 }
 
 .connection-box:hover {
@@ -48,12 +47,10 @@ body {
   margin-right: 10px;
 }
 
-.connection-box p {
+.connection-box-text {
   font-size: 16px;
   font-weight: bold;
-  margin: 0;
-  text-align: left; 
-  white-space: nowrap;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

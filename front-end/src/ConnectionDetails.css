@@ -155,12 +155,27 @@ a {
   grid-row: 4;
 }
 
-
-
 .Box {
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
   margin-bottom: 30vh;
+  align-items: center; 
+  justify-content: center; 
+}
+
+.userName {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10%; 
 }

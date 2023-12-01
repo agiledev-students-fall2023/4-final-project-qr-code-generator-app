@@ -1,52 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; 
 import './SavedConnections.css';
 
 const SavedConnections = () => {
   const [connections, setConnections] = useState([]);
+  const navigate = useNavigate();
+  const defaultImage = '/default.png'; 
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-          console.error('No token found');
-          return;
-        }
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
 
-        // Decode token to get user ID
+      try {
         const decoded = jwtDecode(token);
         const userId = decoded.userId;
-
-        // API URL updated to match the new backend route
-        const apiUrl = `${process.env.REACT_APP_API_URL_LK}/connections/${userId}`;
-        const response = await axios.get(apiUrl, {
+        const response = await axios.get(`http://localhost:3001/connections/${userId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setConnections(response.data);
+        console.log(response.data);
+
+        // Filter out duplicate connections based on friend_id
+        const uniqueConnections = Array.from(new Set(response.data.map(conn => conn.friend_id)))
+          .map(id => {
+            return response.data.find(conn => conn.friend_id === id)
+          });
+
+        setConnections(uniqueConnections);
       } catch (error) {
         console.error('Error fetching connections data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
+
+  const handleConnectionClick = (friendId) => {
+    if (friendId) {
+      navigate(`/ConnectionDetails?qrCodeText=${friendId}`);
+    } else {
+      console.error('Undefined connection ID');
+    }
+  };
 
   return (
     <div className="saved-connections-container">
-      <div className="header">
         <h2>Saved Connections</h2>
-      </div>
-      <div className="connections-grid">
-        {connections.map((connection) => (
-          <Link key={connection.id} to={`/ConnectionDetails/${connection.id}`} className="connection-box">
-            <img src={connection.profile_pic_url} alt={connection.name} />
-            <p>{connection.name}</p>
-          </Link>
-        ))}
-      </div>
+        <div className="connections-grid">
+            {connections.map((connection, index) => (
+                <div key={index}
+                     className="connection-box"
+                     onClick={() => handleConnectionClick(connection.friend_id)}>
+                    <img src={connection.profile_picture || defaultImage} alt={`${connection.first_name} ${connection.last_name}`} />
+                    <p className="connection-box-text">{`${connection.first_name} ${connection.last_name}`}</p>
+                </div>
+            ))}
+        </div>
     </div>
   );
 };
