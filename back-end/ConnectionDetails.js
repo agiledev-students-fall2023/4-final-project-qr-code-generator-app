@@ -6,7 +6,7 @@ const { User } = require('./models/User')
 require('dotenv').config()
 const { createCanvas, loadImage } = require('canvas')
 const { isValidObjectId } = require('mongoose')
-
+const { body, validationResult } = require('express-validator')
 const router = express.Router()
 router.use(cors())
 router.use(express.urlencoded({ extended: true }))
@@ -22,13 +22,16 @@ router.get('/ScanCode', (req, res) => {
   }
 })
 
-router.post('/ScanCode', async (req, res) => {
-  const { qrData } = req.body;
-
-  if (!qrData) {
-    console.log('No QR data received in request.')
-    return res.status(400).send('No QR data provided.')
+router.post('/ScanCode',
+body('qrData').notEmpty().withMessage('QR data is required'),
+async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log("Error")
+    return res.status(400).json({ errors: errors.array() })
   }
+
+  const { qrData } = req.body
 
   const base64Data = qrData.replace(/^data:image\/(png|jpeg|jpg);base64,/, '')
 
@@ -55,10 +58,10 @@ router.post('/ScanCode', async (req, res) => {
     console.error('Error processing QR code:', error)
     res.status(500).send('Error processing QR code')
   }
-});
+})
 
 router.post('/ConnectionDetails', async (req, res) => {
-  const { qrCodeText } = req.body;
+  const { qrCodeText } = req.body
   console.log(`QR Code Text: ${qrCodeText}`)
 
   if (!isValidObjectId(qrCodeText)) {
@@ -74,12 +77,12 @@ router.post('/ConnectionDetails', async (req, res) => {
       return res.status(404).send('User not found')
     }
 
-    res.status(200).json(user);
+    res.status(200).json(user)
   } catch (error) {
     console.error('Error:', error)
     res.status(500).json({ message: 'Internal Server Error' })
   }
-});
+})
 
 router.post('/saveConnection', async (req, res) => {
   const { userId, friend_id, platforms, connected_date, first_name, last_name, profile_picture } = req.body;

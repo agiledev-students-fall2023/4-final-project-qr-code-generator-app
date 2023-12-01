@@ -11,7 +11,7 @@ import ConnectionDetails from "./ConnectionDetails";
 import PrivacyPolicy from "./PrivacyPolicy";
 import ContactUs from "./ContactUs";
 import TermOfServices from "./TermOfServices";
-import SelectInformationForm from "./SelectInformationForm"
+import SelectInformation from "./SelectInformation"
 import SavedConnections from "./SavedConnections"
 import EditInformation from "./EditInformation"
 import './App.css';
@@ -33,7 +33,7 @@ const App = () => {
 				<Route path="/ConnectionDetails/:id" element={<ConnectionDetails />} />
 				<Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
 				<Route path="/scan-code" element={<ScanCode />} />
-				<Route path="/select-information" element={<SelectInformationForm />} />
+				<Route path="/select-information" element={<SelectInformation/>} />
 				<Route path="/saved-connections" element={<SavedConnections />} />
 				<Route path="/edit-information" element={<EditInformation />} />
 			</Routes>

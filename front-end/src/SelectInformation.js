@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './SelectInformationForm.css'
+import './SelectInformation.css'
 
-const SelectInformationForm = props => {
+const SelectInformation = props => {
+  // placeholder id
+  const [userId] = useState(() => '6562c186a4a586c6e19a4eef')
   const [data, setData] = useState(() => [])
   // track which boxes are checked
   const [checked, setChecked] = useState(() => []) // bool array
@@ -16,7 +18,7 @@ const SelectInformationForm = props => {
 
   const handleCheckBox = e => {
     const checkedCopy = [...checked]
-    checkedCopy[e.target.id - 1] = e.target.checked
+    checkedCopy[e.target.id] = e.target.checked
     setChecked(checkedCopy)
   }
 
@@ -30,7 +32,7 @@ const SelectInformationForm = props => {
       console.log('Fetching user information data...')
       try {
         const apiUrl = process.env.REACT_APP_API_URL
-        const response = await axios.get(`${apiUrl}/users/0/platforms`)
+        const response = await axios.get(`${apiUrl}/users/${userId}/platforms`)
         setData(response.data)
         console.log('Successfully retrieved mock data!')
       } catch (err) {
@@ -39,7 +41,7 @@ const SelectInformationForm = props => {
       }
     }
     fetchData()
-  }, [])
+  }, [userId])
 
   // initialize checked after data is set
   useEffect(() => {
@@ -74,19 +76,19 @@ const SelectInformationForm = props => {
             </label>
           </div>
         </div>
-        {data.map((item,index) =>
-        <div className="select-information-item" key={item.id || index}>
+        {data.map((platform,index) =>
+        <div className="select-information-item" key={`item_${index}`}>
           <div className="select-information-label">
             <label className="select-information-label-text">
-                {item.platform}: {item.info}
+                {platform.name}: {platform.value}
             </label>
           </div>
           <div className="select-information-checkbox">
             <label className="select-information-slider-label">
               <input className="select-information-input"
-                     id={item.id || index/* passed to update state */}
+                     id={index /* passed to update state */}
                      type="checkbox"
-                     checked={checked[item.id - 1] || false /* was triggering an
+                     checked={checked[index] || false /* was triggering an
                      uncontrolled component warning without second part */}
                      onChange={e => handleCheckBox(e)} />
               <span className="select-information-slider"></span>
@@ -111,4 +113,4 @@ const SelectInformationForm = props => {
   )
 }
 
-export default SelectInformationForm
+export default SelectInformation

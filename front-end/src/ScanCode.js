@@ -25,12 +25,12 @@ function ScanCode() {
 	}, []);
 
 	function handleFileChange(event) {
-		const file = event.target.files[0];
+		const file = event.target.files[0]
 		if (file) {
-			const reader = new FileReader();
+			const reader = new FileReader()
 			reader.onload = async (e) => {
-				const imageDataUrl = e.target.result;
-				console.log('Image data URL:', imageDataUrl);
+				const imageDataUrl = e.target.result
+				console.log('Image data URL:', imageDataUrl)
 				try {
 					const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/ScanCode`, {
 						qrData: imageDataUrl

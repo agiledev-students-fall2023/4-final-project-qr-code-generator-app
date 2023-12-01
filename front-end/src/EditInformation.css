@@ -1,4 +1,3 @@
-/* EditInformation.css */
 .edit-information-container {
     max-width: 400px;
     margin: 0 auto;
@@ -18,6 +17,23 @@
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.profile-section {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-section p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-section input[type="text"] {
+    width: calc(45% - 10px); /* Set the width as desired */
+    margin-right: 6px; /* Adjust margin for spacing */
+    padding: 10px; /* Adjust padding */
+    font-size: 16px; /* Adjust font size */
 }
 
 .save-button {

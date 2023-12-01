@@ -98,15 +98,15 @@
   transition: .4s;
 }
 
-input:checked + .select-information-slider, .select-information-all-slider {
+input:checked + .select-information-slider, input:checked + .select-information-all-slider {
   background-color: #2196F3;
 }
 
-input:focus + .select-information-slider, .select-information-all-slider {
+input:focus + .select-information-slider, input:focus + .select-information-all-slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .select-information-slider:before, .select-information-all-slider:before {
+input:checked + .select-information-slider:before, input:checked + .select-information-all-slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
