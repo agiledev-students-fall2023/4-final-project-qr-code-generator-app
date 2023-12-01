@@ -1,29 +1,43 @@
-html,
-body {
-  background-color: #fff;
+
+
+/* Resets */
+html, body {
+  height: 100%; /* Ensures the full height is used */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  background-color: #fff; /* Set the background color */
 }
 
-#root {
-  min-height: calc(100% - 112px); /* 112px is height of footer */
-  display: flex;
-  flex-direction: column;
-}
-
+/* Box sizing rules */
 html {
   box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: inherit;
-  margin: 0;
-  padding: 0;
 }
 
-.App {
-  text-align: center;
+/* Root container */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Use viewport height */
 }
+
+/* Main app styling */
+.App {
+  flex: 1; /* Allows the App component to grow */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1; /* Allows main content to grow and shrink */
+  padding: 20px;
+  background-color: white;
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -36,10 +50,12 @@ html {
   }
 }
 
+
 .App-main {
   background-color: white;
   padding: 20px;
 }
+
 .App-link {
   color: #61dafb;
 }

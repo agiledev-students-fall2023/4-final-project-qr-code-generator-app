@@ -7,8 +7,9 @@ const cors = require('cors');
 // Import routes
 const authRoutes = require('./authRoutes');
 const connectionsRoutes = require('./connections');
-const unchangedImagesRouter = require('./unchanged-images');
+const unchangedImagesRouter = require('./unchanged-images'); // Ensure this path is correct
 const connectionsdetailsRoutes = require('./ConnectionDetails');
+const addNewConnectionRoutes = require('./addUserProfile'); 
 const userRoutes = require('./users');
 const platformRoutes = require('./platforms');
 
@@ -49,6 +50,8 @@ app.use('/users', userRoutes);
 app.use('/users', platformRoutes);
 app.use('/api', connectionsRoutes);
 app.use('/', connectionsdetailsRoutes);
+app.use('/', addNewConnectionRoutes);
+
 
 // Root route
 app.get('/', (req, res) => {

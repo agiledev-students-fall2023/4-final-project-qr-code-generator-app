@@ -2,11 +2,12 @@ img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+
 }
 
 .newQRCode{
   width: 20vh;
-  height: 20vh;
+  height: 15vh;
   border-radius: 10%;
   padding: auto;    
 }
@@ -14,10 +15,10 @@ img {
 .detailsContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto auto repeat(8, 1fr);
-  gap: 20px;
+  grid-template-rows: auto auto repeat(3, 1fr);
+  gap: 15px;
   width: 80vw;
-  height: 70vh;
+  height: 20vh;
   box-sizing: border-box;
   font-size: 12px;
 }
@@ -42,7 +43,7 @@ img {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  text-align: left;
+  text-align: center;
 }
 
 .areaA {
@@ -52,7 +53,7 @@ img {
 
 .areaB {
   grid-column: 2 / 5;
-  grid-row: 1 / 2;
+  grid-row: 1 / 1;
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -69,28 +70,30 @@ img {
 
 .areaD {
   grid-column: 1 / 5;
-  grid-row: 2 / 5;
+  grid-row: 2 / 2;
   background-color: white;
   color: black;
   border: 1px solid black;
   cursor: pointer;
   border-radius: 20px;
+  font-size: 10px;
+  text-align: center;
 }
 
 .areaE {
-  grid-column: 1 / 5;
-  grid-row: 5 / 8;
   background-color: white;
   color: black;
   border: 1px solid black;
   cursor: pointer;
   border-radius: 20px;
+  font-size: 10px;
+  text-align: center;
 }
 
 .viewCode, .hideCode, .saveCode {
   background-color: white;
   color: black;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border: 1px solid black;
   cursor: pointer;
   border-radius: 10px;
@@ -114,9 +117,50 @@ a {
   color: inherit;
 }
 
+.userName{
+          border: 1px solid black;
+          cursor: pointer;
+          border-radius: 10px;
+          background-color: white;
+          color: black;
+          font-size: 20px;
+          padding: 10px 20px;
+          margin: 10%; 
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, auto);
+  box-sizing: border-box;
+  gap: 10px;
+  height: 100vh;
+}
+
+.viewCode, .hideCode, .saveCode {
+  grid-column: 4 / 6;
+}
+
+.viewCode {
+  grid-row: 1;
+}
+
+
+
+.hideCode {
+  grid-row: 3;
+}
+
+.saveCode {
+  grid-row: 4;
+}
+
+
+
 .Box {
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
+  margin-bottom: 30vh;
 }

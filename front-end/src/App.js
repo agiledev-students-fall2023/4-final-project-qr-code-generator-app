@@ -20,6 +20,7 @@ const App = () => {
 	return (
 		<Router>
 			<Header />
+			<div className="main-content"> {/* Main content area */}
 			<Routes>
 				<Route path="/" element={<Login />} />
 				<Route path="/signup" element={<Signup />} />
@@ -36,6 +37,7 @@ const App = () => {
 				<Route path="/saved-connections" element={<SavedConnections />} />
 				<Route path="/edit-information" element={<EditInformation />} />
 			</Routes>
+			</div>
 			<Footer />
 		</Router>
 	);
