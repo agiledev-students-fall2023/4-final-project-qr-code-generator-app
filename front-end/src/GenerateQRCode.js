@@ -1,40 +1,54 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import QRCode from 'react-qr-code'
-import './GenerateQRCode.css'
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import QRCode from "react-qr-code"
+import "./GenerateQRCode.css"
+import { jwtDecode } from 'jwt-decode'
 
 
 const GenerateQRCode = () => {
-  const token = localStorage.getItem('token')
-  const [userId, setUserId] = useState('')
-  const navigate = useNavigate()
+    const [userId, setUserId] = useState("")
 
-  useEffect(() => {
-    if (!token) navigate('/login')
-    else {
-      // get user id
-      axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/protected`,
-                  { headers: { Authorization: `JWT ${token}` } })
-      .then(res => setUserId(res.data.userId))
-      .catch(err => console.error(err))
-    }
-  }, [token, navigate])
+    useEffect(() => {
+	const token = localStorage.getItem('token')
+	if (!token) {
+	console.error('No token found');
+	return;
+	}
+      
+	const fetchUserId = async () => {
+	try {
+	const decodedToken = jwtDecode(token)
+	const response = await axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/generateQRCode`, { decodedToken }, {
+		headers: {
+		Authorization: `Bearer ${token}`
+		}
+	});
+      
+	setUserId(response.data.decodedToken.userId)
+	console.log(response.data.decodedToken.userId)
+	} catch (error) {
+	console.error("Error fetching user ID:", error)
+	}
+	};
+      
+	fetchUserId()
+      }, []);
+      
 
-  return (
-    <div className='generateQRCodeContainer'>
-      <div className='generateQRCodeText'>Your QR Code</div>
-        <div className='qrCode'>
-        <QRCode
-          value={userId || ''}
-          size={128}
-          bgColor='#ffffff'
-          fgColor='#000000'
-          level='L'
-        />
-      </div>
-    </div>
-  )
-}
+    return (
+        <div className="generateQRCodeContainer">
+            <div className="generateQRCodeText">Your QR Code</div>
+            <div className="qrCode">
+                <QRCode
+                    value={userId || 'www.google.com'}
+                    size={128}
+                    bgColor="#ffffff"
+                    fgColor="#000000"
+                    level="L"
+                />
+            </div>
+        </div>
+    );
+};
 
-export default GenerateQRCode
+export default GenerateQRCode;

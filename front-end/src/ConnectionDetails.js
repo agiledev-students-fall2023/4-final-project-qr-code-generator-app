@@ -1,11 +1,11 @@
+
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import "./ConnectionDetails.css"
+import {jwtDecode} from 'jwt-decode'
 
 const ConnectionDetails = () => {
-	const token = localStorage.getItem('token')
-  const [userId, setUserId] = useState(() => '')
 	const navigate = useNavigate()
 	const [scanResult, setScanResult] = useState([])
 	const [isQRCodeVisible, setQRCodeVisible] = useState(false)
@@ -15,22 +15,10 @@ const ConnectionDetails = () => {
 	const qrCodeText = params.friend_id // /cd/friend_id
 
 
-  useEffect(() => {
-    if (!token) navigate('/login')
-    else {
-      // get user id
-      axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/protected`,
-                  { headers: { Authorization: `JWT ${token}` } })
-      .then(res => setUserId(res.data.userId))
-      .catch(err => console.error(err))
-    }
-  }, [token, navigate])
-
 	useEffect(() => {
 		async function fetchScanResult() {
 			try {
-				await axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/users/${qrCodeText}/platforms`,
-                          { headers: { Authorization: `JWT ${token}` } })
+				await axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/users/${qrCodeText}/platforms`)
 					.then(response => {
 						if (response.status === 200) {
 							setScanResult(response.data)
@@ -41,9 +29,10 @@ const ConnectionDetails = () => {
 			}
 		}
 
-		if (userId) fetchScanResult()
 
-	}, [qrCodeText, token, userId])
+		fetchScanResult()
+
+	}, [qrCodeText])
 
   useEffect(() => {
   }, [scanResult])
@@ -57,16 +46,22 @@ const ConnectionDetails = () => {
 	}
 
 	const handleSaveCode = () => {	
-    const newUserConnection = {
+    const token = localStorage.getItem('token')
+		if (!token) {
+      console.error('No token found')
+      return
+		}
+
+		const decodedToken = jwtDecode(token)
+		const userId = decodedToken.userId
+		
+		const newUserConnection = {
       friend_id: qrCodeText,
       platforms: scanResult || [],
       connected_date: new Date()
 		}
      
-		console.log("New User Connection:", newUserConnection)
-     
-		axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/connections/save/${userId}`, newUserConnection,
-                 { headers: { Authorization: `JWT ${token}` } })
+		axios.post(`${process.env.REACT_APP_SERVER_HOSTNAME}/connections/save/${userId}`, newUserConnection)
 		.then(response => {
       navigate("/saved-connections")
       })

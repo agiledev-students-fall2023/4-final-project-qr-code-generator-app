@@ -1,19 +1,12 @@
 // Import React hooks, axios for HTTP requests, and the component's CSS
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './HomeScreen.css'
 
 // Define the HomeScreen component
 const HomeScreen = () => {
-  const token = localStorage.getItem('token')
-  const navigate = useNavigate()
   // Create a piece of state to hold the source URL of the image
   const [imageSrc, setImageSrc] = useState('')
-
-  useEffect(() => {
-    if (!token) navigate('/login')
-  }, [token, navigate])
 
   // Use the useEffect hook to fetch the image when the component mounts
   useEffect(() => {

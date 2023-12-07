@@ -6,7 +6,8 @@ const router = express.Router()
 
 const { User, Platform } = require('./models/User.js')
 
-// /users/:id/platforms (gets platforms list of id)
+// Route for retrieving platform information
+// In final implementation, this will extract info tied to userId
 router.get('/:id/platforms', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -18,7 +19,7 @@ router.get('/:id/platforms', async (req, res) => {
   }
 })
 
-// /users/:id/platforms (updates platform list of id)
+// Route for updating platform information
 router.put('/:id/platforms', 
   param('id').notEmpty().isMongoId(),
   // check that field names are valid for each platform

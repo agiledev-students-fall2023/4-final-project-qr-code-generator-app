@@ -2,20 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const { User } = require('./models/User')
 const { param, validationResult } = require('express-validator')
-const passport = require('passport')
 const router = express.Router()
 const defaultImage = '/default.png' 
-
-router.get('/*', passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    next()
-  }
-)
-router.delete('/*', passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    next()
-  }
-)
 
 const validateObjectId = (paramName) => [
   param(paramName).isMongoId(),
@@ -36,7 +24,6 @@ const handleValidationErrors = (req, res, next) => {
   next()
 }
 
-// /connections/:id (gets connections list of id)
 router.get('/:id', validateObjectId('id'), async (req, res) => {
   try {
     const user = await User.findById(req.params.id).exec()

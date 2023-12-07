@@ -3,13 +3,6 @@ const app = express()
 require('dotenv').config({ silent: true })
 const morgan = require('morgan')
 const cors = require('cors')
-const jwt = require('jsonwebtoken')
-const passport = require('passport')
-
-// jwt authentication strategy
-const jwtStrategy = require('./config/jwt-config.js')
-passport.use(jwtStrategy)
-app.use(passport.initialize())
 
 // Import routes
 const authRoutes = require('./authRoutes')

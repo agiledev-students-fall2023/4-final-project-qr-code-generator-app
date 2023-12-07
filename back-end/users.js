@@ -5,23 +5,9 @@ const mongoose = require('mongoose')
 const { ObjectId } = require('mongodb')
 const path = require('path')
 const multer = require('multer') // middleware to handle HTTP POST requests with file uploads
-const passport = require('passport')
-
 const router = express.Router()
 
 const { User } = require('./models/User.js')
-
-// covers both user and platform routes
-router.get('/*', passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    next()
-  }
-)
-router.put('/*', passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    next()
-  }
-)
 
 // Multer handles file uploads
 // enable file uploads saved to disk in a directory named 'public/uploads'
@@ -44,32 +30,26 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage })
 
-// /users/:id (gets user info (no pass))
-router.get('/:id', 
-  param('id').notEmpty().isMongoId(),
-  async (req, res) => {
-  const result = validationResult(req)
-  if (!(result.isEmpty())) {
-    res.status(400).json({ error: 'Invalid request' })
-  } else {
-    try {
-      const user = await User.findById(req.params.id).exec()
-      // Extracts and returns only user profile data
-      const user_profile = {
-        email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        profile_picture: user.profile_picture
-      }
-      res.json(user_profile)
-    } catch (err) {
-      console.error(`Error fetching user profile data: ${err}`)
-      res.status(500).json({ error: 'Internal Server Error' })
+// User profile route
+// Produces user profile data (note no password)
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).exec()
+    // Extracts and returns only user profile data
+    const user_profile = {
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      profile_picture: user.profile_picture
     }
+    res.json(user_profile)
+  } catch (err) {
+    console.error(`Error fetching user profile data: ${err}`)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 })
 
-// /users/:id (update/create user information)
+// Route for updating user information
 router.put('/:id', 
   param('id').notEmpty().isMongoId(), 
   body('email').optional().notEmpty().isEmail(),
@@ -105,7 +85,7 @@ router.put('/:id',
   }
 })
 
-// /users/:id/profilePicture (gets profile picture path)
+// Route for getting profile_picture
 router.get('/:id/profilePicture', async (req, res) => {
   try {
     const user = await User.findById(req.params.id).exec()
@@ -120,7 +100,7 @@ router.get('/:id/profilePicture', async (req, res) => {
   }
 })
 
-// /users/:id/profilePicture (uploads profile picture to web server)
+// Route for updating profile picture
 router.put('/:id/uploadPicture', upload.single('file'), async (req, res) => {
   // Assuming the file is successfully uploaded
   if (req.file) {

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import './SelectInformation.css'
 
 const SelectInformation = props => {
-  // grab authentication token to ensure logged in user
-  const token = localStorage.getItem('token')
-  const [userId, setUserId] = useState(() => '')
-  const navigate = useNavigate()
-  // platform data from db
+  const navigate = useNavigate();
+  // placeholder id
+  const [userId] = useState(() => '6562c186a4a586c6e19a4eef')
   const [data, setData] = useState(() => [])
   // track which boxes are checked
   const [checked, setChecked] = useState(() => []) // bool array
@@ -31,31 +29,22 @@ const SelectInformation = props => {
     console.log('Submitted!')
   }
 
-  useEffect(() => {
-    if (!token) navigate('/login')
-    else {
-      // get user id
-      axios.get(`${process.env.REACT_APP_SERVER_HOSTNAME}/protected`,
-                  { headers: { Authorization: `JWT ${token}` } })
-      .then(res => setUserId(res.data.userId))
-      .catch(err => console.error(err))
-    }
-  }, [token, navigate])
-
   // get data from api
   useEffect(() => {
     const fetchData = async () => {
+      console.log('Fetching user information data...')
       try {
         const apiUrl = process.env.REACT_APP_API_URL
-        const response = await axios.get(`${apiUrl}/users/${userId}/platforms`,
-                          { headers: { Authorization: `JWT ${token}` } })
+        const response = await axios.get(`${apiUrl}/users/${userId}/platforms`)
         setData(response.data)
+        console.log('Successfully retrieved mock data!')
       } catch (err) {
+        console.log('Unable to retrieve data!')
         console.error(err)
       }
     }
-    if (userId) fetchData()
-  }, [userId, token])
+    fetchData()
+  }, [userId])
 
   // initialize checked after data is set
   useEffect(() => {
@@ -63,6 +52,7 @@ const SelectInformation = props => {
   }, [data])
 
   // check if all checked after `checked` changes (confusing i know)
+  // extra comment
   useEffect(() => {
     if (checked.length) {
       setAllChecked(checked.reduce((acc, head) => acc && head))
@@ -109,9 +99,9 @@ const SelectInformation = props => {
           </div>
         </div>
         )}
-        {data.length === 0 && token ? 
+        {data.length === 0 ? 
             <p className="select-information-no-info-message">
-              You don&apos;t have any information yet! Add some on the Edit Information page.
+              Sorry, you don&apos;t have any information yet!
             </p> 
             : <></>}
       </div>
