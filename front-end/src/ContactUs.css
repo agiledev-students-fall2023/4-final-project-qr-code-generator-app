@@ -1,0 +1,18 @@
+/* ContactUs.css */
+.ContactUs-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+}
+.ContactUs-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-info .data-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+}

@@ -1,0 +1,21 @@
+.PrivacyPolicy-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+}
+
+.PrivacyPolicy-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.PrivacyPolicy-info p {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+}

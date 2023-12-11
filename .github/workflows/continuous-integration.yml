@@ -1,0 +1,40 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    env:
+      MONGODB_USER: ${{ secrets.MONGODB_USER }}
+      MONGODB_PASS: ${{ secrets.MONGODB_PASS }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      PORT: ${{ secrets.PORT }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build back-end
+      run: |
+        cd back-end
+        docker build -t back-end .
+    - name: Test back-end
+      run: |
+        cd back-end
+        npm install
+        npm test
+
+  frontend:
+    runs-on: ubuntu-latest
+    env:
+      REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+      REACT_APP_BACKEND_SERVER_HOSTNAME: ${{ secrets.REACT_APP_BACKEND_SERVER_HOSTNAME }}
+      REACT_APP_SERVER_HOSTNAME: ${{ secrets.REACT_APP_SERVER_HOSTNAME }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build front-end
+      run: |
+        cd front-end
+        docker build -t front-end .

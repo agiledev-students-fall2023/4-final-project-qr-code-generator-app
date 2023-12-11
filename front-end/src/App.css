@@ -1,0 +1,61 @@
+
+
+/* Resets */
+html, body {
+  height: 100%; /* Ensures the full height is used */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  background-color: #fff; /* Set the background color */
+}
+
+/* Box sizing rules */
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Root container */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Use viewport height */
+}
+
+/* Main app styling */
+.App {
+  flex: 1; /* Allows the App component to grow */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1; /* Allows main content to grow and shrink */
+  padding: 20px;
+  background-color: white;
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+.App-main {
+  background-color: white;
+  padding: 20px;
+}
+
+.App-link {
+  color: #61dafb;
+}

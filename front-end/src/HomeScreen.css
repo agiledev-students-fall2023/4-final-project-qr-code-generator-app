@@ -1,0 +1,38 @@
+/* HomeScreen.css */
+
+.home-container {
+    padding: 20px;
+}
+
+.home-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.app-logo {
+    width: 200px; 
+    height: auto; 
+    margin-bottom: 20px; 
+    object-fit: cover;
+}
+
+.home-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.home-link {
+    padding: 10px;
+    background-color: #f4f4f4;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.home-link:hover, .home-link:active {
+    background-color: #ddd;
+}

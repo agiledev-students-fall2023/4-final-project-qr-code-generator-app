@@ -1,0 +1,44 @@
+html, body {
+          height: 100%;
+          margin: 0; 
+          padding: 0;
+}
+
+.Logo {
+          width: 25vh;
+          height: 20vh;
+          border-radius: 30%;
+          position: absolute;
+          top: 20%;
+          margin: auto;
+}
+
+.Box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+}
+
+.Box>* {
+          margin: 10px 0;
+}
+
+.scanButton {
+          background-color: white;
+          color: black;
+          padding: 10px 20px;
+          border: 1px solid black;
+          cursor: pointer;
+          border-radius: 10px;
+          text-align: center;
+          transition: background-color 0.3s, color 0.3s;
+          width: 30vw;
+          position: absolute;
+          top: 50%;
+}
+
+
+.scanButton:hover {
+          background-color: black;
+          color: white;
+}

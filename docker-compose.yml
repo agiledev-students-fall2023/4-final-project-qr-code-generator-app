@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  front-end:
+    build:
+      context: ./front-end  # Path to our frontend directory containing front-end's Dockerfile
+      dockerfile: Dockerfile  # Name of your frontend Dockerfile
+    ports:
+      - "3000:3000"  # Map container port to host port if needed
+    # Ensure this .env file exists in your root directory!
+    env_file: 
+      - ./front-end.env
+    # Add volumes if needed
+    volumes:
+      - ./front-end:/usr/src/front-end  # Mount your front-end directory to the container
+    # Add other configurations as required
+
+  back-end:
+    build:
+      context: ./back-end  # Path to our backend directory containing back-end's Dockerfile
+      dockerfile: Dockerfile  # Name of your backend Dockerfile
+    ports:
+      - "3001:3001"  # Map container port to host port if needed
+    # Ensure this .env file exists in your root directory!
+    env_file: 
+      - ./back-end.env
+    # Add volumes if needed
+    volumes:
+      - ./back-end:/usr/src/back-end  # Mount your back-end directory to the container
+    # Add other configurations as required

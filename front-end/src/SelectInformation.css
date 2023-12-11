@@ -1,0 +1,113 @@
+.select-information-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.select-information-header {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.select-information-item, .select-information-all-item {
+    display: flex;
+    padding: 5px 10px;
+    margin: 0% 2.5%;
+}
+
+.select-information-all-item {
+    border-bottom: medium solid black;
+}
+
+.select-information-label, .select-information-all-label {
+    flex: 9;
+    display: flex;
+}
+
+.select-information-label-text, .select-information-all-label-text {
+    align-self: center;
+}
+
+.select-information-checkbox, .select-information-all-checkbox {
+    flex: 1;
+    text-align: right;
+}
+
+.select-information-submit-item {
+    margin-top: auto;
+}
+
+.select-information-submit-button {
+    width: 100%;
+    border: none;
+    padding: 20px 0px;
+    background-color: #007bff;
+    transition: background-color 0.3s;
+    color: white;
+    font-size: 16px;
+}
+
+.select-information-submit-button:hover, .select-information-submit-button:active {
+    background-color: #0056b3;
+}
+
+.select-information-no-info-message {
+    padding: 5px;
+    text-align: center;
+}
+
+/* Slider CSS adapted from
+ * https://www.w3schools.com/howto/howto_css_switch.asp 
+ */
+.select-information-slider-label, .select-information-all-slider-label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.select-information-input input, .select-information-all-input input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.select-information-slider, .select-information-all-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.select-information-slider:before, .select-information-all-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .select-information-slider, input:checked + .select-information-all-slider {
+  background-color: #2196F3;
+}
+
+input:focus + .select-information-slider, input:focus + .select-information-all-slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .select-information-slider:before, input:checked + .select-information-all-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
